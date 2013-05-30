@@ -56,7 +56,7 @@ public class JspServer
 				//
 			}
 
-		final Game game = new Game(GameType.OPEN);
+		final Game game = new Game(GameTypes.OPEN);
 
 		final java.util.UUID otherKey = createKey();
 		final JspServer server = new JspServer(game);

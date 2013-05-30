@@ -337,12 +337,24 @@ public class QueueingJSONInterface implements org.rnd.jmagic.engine.PlayerInterf
 		try
 		{
 			json = this.responseQueue.take();
-			String[] deck = this.gson.fromJson(json, new com.google.gson.reflect.TypeToken<String[]>()
+			String[] cards = this.gson.fromJson(json, new com.google.gson.reflect.TypeToken<String[]>()
 			{
 				//
 			}.getType());
 
-			return new Deck(Arrays.asList(deck), new java.util.LinkedList<String>());
+			java.util.List<String> deck = new java.util.LinkedList<String>();
+			java.util.List<String> sideboard = new java.util.LinkedList<String>();
+
+			for(String card: cards)
+			{
+				// TODO : also add a check for a quantity
+				if(card.startsWith("SB:"))
+					sideboard.add(card);
+				else
+					deck.add(card);
+			}
+
+			return new Deck(deck, sideboard);
 		}
 		catch(InterruptedException e)
 		{

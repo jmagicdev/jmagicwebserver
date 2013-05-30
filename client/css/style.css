@@ -9,6 +9,19 @@ body,
   font-size: 16px;
 }
 
+#deck-builder {
+
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+.selectable.selected {
+  border: 2px solid #F00;
+  margin: -2px;
+}
+
 .gameobject {
   width: 94px;
   height: 130px;
@@ -17,7 +30,7 @@ body,
   background-position: 50% 50%;
   background-repeat: no-repeat;
   cursor: pointer;
-  
+
   /* TODO: REMOVE IMAGE? */
   background-image: url(images/sm/back.png);
 }
@@ -71,7 +84,7 @@ body,
 
 .battlefield-container {
   height: 100%;
-  margin-left: 20.875em; /* width + margin of toolbar */
+  margin-left: 4em; /* width of toolbar */
   margin-right: 12em; /* width of log container */
   position: relative;
   overflow: auto;
@@ -122,40 +135,101 @@ body,
   position: fixed;
   top: 0;
   left: 0;
-  width: 14em;
+  min-width: 4em;
   height: 100%;
-  padding: 0.5em;
-  background: #CCC;
-  border-width: 0 1px 0 0;
-  border-color: #333;
-  border-style: solid;
+  background: #DDD;
   font-weight: bold;
-  margin: 0 5.875em 0 0;
 }
 
-#player-container {
+#toolbar > .zoneSpawner {
   position: absolute;
-  left: 15em;
+  top: 50%;
+  left: 0;
+  transform               : rotate(270deg);
+  -ms-transform           : rotate(270deg);
+  -moz-transform          : rotate(270deg);
+  -webkit-transform       : rotate(270deg);
+  -o-transform            : rotate(270deg);
+  transform-origin        : 0.5em 50% 0;
+  -ms-transform-origin    : 0.5em 50% 0;
+  -moz-transform-origin   : 0.5em 50% 0;
+  -webkit-transform-origin: 0.5em 50% 0;
+  -o-transform-origin     : 0.5em 50% 0;
+  width: 3em;
+  margin-top: -1.5em;
+  border-color: #AAA #BBB #AAA #777;
+  border-width: 0 2px 2px;
+  border-radius: 0 0 0.5em 0.5em;
+  border-style: solid;
+  padding: 0.25em;
+  background-color: #999;
+  cursor: pointer;
+}
+
+#toolbar > .zoneSpawner:hover,
+#toolbar > .zoneSpawner:active {
+  border-color: #888 #777 #888 #BBB;
+  background-color: #909090;
+}
+
+#pass-button {
+  position: absolute;
+  left: 0.5em;
+  top: 50%;
+  margin: 3em -2px 0;
+  width: 3em;
+  height: 2em;
+  line-height: 2em;
+  border-width: 2px;
+  border-radius: 0.5em;
+}
+
+.button {
+  border-color: #BBB #AAA #777 #888;
+  border-style: solid;
+  border-radius: 0.25em;
+  background-color: #999;
+  text-align: center;
+  border-width: 1px;
+  height: 1em;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: #777 #888 #BBB #AAA;
+  background-color: #909090;
+}
+
+.player {
+  position: absolute;
+  left: 0;
+  padding: 0.5em;
+  width: 3em;
+}
+
+.player.opponent {
   top: 0;
-  width: 5.875em;
-  height: 100%;
-  border-width: 0 1px 0 0;
-  border-color: #333;
-  border-style: solid;
 }
 
-#player-container .player {
-  width: 100%;
-  height: 50%;
+.player.localPlayer {
+  bottom: 0;
 }
 
-#player-container .player.opponent {
+.player .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  height: 1em;
 }
 
-#player-container .player.localPlayer {
-  border-color: #333;
-  border-style: solid;
-  border-width: 1px 0 0;
+.player .lifeTotal {
+  color: #4A4;
+  float: right;
+}
+
+.player .zoneSpawner {
+  float: left;
+  text-align: center;
 }
 
 #zone-selector {
@@ -174,11 +248,40 @@ body,
 #action-selector {
   display: block;
   margin: 1em auto;
-  width: 223px;
+  /*width: 223px;*/
 }
 
 .ui-draggable-dragging {
  z-index: 9999;
+}
+
+.zoneSpawner {
+  padding: 0;
+  margin: 0;
+  height: 1em;
+  width: 1em;
+}
+
+.zoneSpawnerPopup {
+  display: none;
+  position: absolute;
+  z-index: 9998;
+  border: 1px solid #555;
+  border-radius: 0.5em;
+  overflow: hidden;
+}
+
+.zoneSpawnerPopupChoice {
+  margin: 0;
+  padding: 5px;
+  cursor: pointer;
+  background: #FFF;
+  color: #000;
+}
+
+.zoneSpawnerPopupChoice:hover {
+  background: #00F;
+  color: #FFF;
 }
 
 
