@@ -79,7 +79,42 @@ public class QueueingJSONInterface implements org.rnd.jmagic.engine.PlayerInterf
 		{
 			return null;
 		}
+	}
 
+	public static final class ManaPoolAdapter extends com.google.gson.TypeAdapter<ManaPool>
+	{
+		public static final com.google.gson.TypeAdapterFactory FACTORY = new com.google.gson.TypeAdapterFactory()
+		{
+			@Override
+			@SuppressWarnings("unchecked")
+			// we use a runtime check to make sure the 'T's equal
+			public <T> com.google.gson.TypeAdapter<T> create(com.google.gson.Gson gson, TypeToken<T> typeToken)
+			{
+				return typeToken.getRawType() == SanitizedGameState.class ? (com.google.gson.TypeAdapter<T>)new ManaPoolAdapter(gson) : null;
+			}
+		};
+
+		private com.google.gson.Gson gson;
+
+		public ManaPoolAdapter(com.google.gson.Gson gson)
+		{
+			this.gson = gson;
+		}
+
+		@Override
+		public void write(JsonWriter out, ManaPool value) throws IOException
+		{
+			this.gson.getAdapter(new com.google.gson.reflect.TypeToken<java.util.List<ManaSymbol>>()
+			{
+				//
+			}).write(out, value.getDisplayOrder());
+		}
+
+		@Override
+		public ManaPool read(JsonReader in) throws IOException
+		{
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -342,19 +377,12 @@ public class QueueingJSONInterface implements org.rnd.jmagic.engine.PlayerInterf
 				//
 			}.getType());
 
-			java.util.List<String> deck = new java.util.LinkedList<String>();
-			java.util.List<String> sideboard = new java.util.LinkedList<String>();
+			Deck deck = new Deck();
 
 			for(String card: cards)
-			{
-				// TODO : also add a check for a quantity
-				if(card.startsWith("SB:"))
-					sideboard.add(card);
-				else
-					deck.add(card);
-			}
+				deck.addCard(card);
 
-			return new Deck(deck, sideboard);
+			return deck;
 		}
 		catch(InterruptedException e)
 		{
